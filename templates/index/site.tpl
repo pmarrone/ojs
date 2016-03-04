@@ -53,6 +53,24 @@
 
 <div id="journalListPageInfo">{page_info iterator=$journals}</div>
 <div id="journalListPageLinks">{page_links anchor="journals" name="journals" iterator=$journals}</div>
-
+<div>
+<!-- agregado -->
+<div style="clear:left;">
+<div class="homepageImage">
+<a class="action" href="http://www.ojs.darwin.edu.ar">
+<img alt="Logotipo de la cabecera de la página" src="http://www.ojs.darwin.edu.ar/public/journals/2/cover_issue_35_es_ES.jpg" width="100" height="141">
+</a>
+</div>
+</div>
+<h3>Revista Darwiniana, nueva serie</h3>
+<p>Darwiniana, nueva serie, es una publicación científica botánica, semestral, propiedad de las siguientes instituciones: Museo Botánico de Córdoba, Instituto de Botánica Darwinion, Instituto Multidisciplinario de Biología Vegetal, Universidad Nacional de Córdoba y Academia Nacional de Ciencias Exactas, Físicas y Naturales. Publica trabajos científicos originales y revisiones sobre diferentes áreas de la Botánica con excepción de los artículos de índole agronómico y estrictamente aplicados (de transferencia directa). Presenta versión en línea (ISSN 1850-1699) y versión impresa (ISSN 0011-6793).</p>
+<p>
+<a class="action" href="http://www.ojs.darwin.edu.ar/">Ver revista</a>
+|
+<a class="action" href="http://www.ojs.darwin.edu.ar/index.php/darwiniana/issue/current">Número actual</a>
+|
+<a class="action" href="http://www.ojs.darwin.edu.ar/index.php/darwiniana/user/register">Registrarse</a>
+</p>
+</div>
 {include file="common/footer.tpl"}
 
