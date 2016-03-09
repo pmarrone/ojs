@@ -25,28 +25,104 @@
 	<p>{foreach from=$alphaList item=letter}<a href="{url searchInitial=$letter sort="title"}">{if $letter == $searchInitial}<strong>{$letter|escape}</strong>{else}{$letter|escape}{/if}</a> {/foreach}<a href="{url}">{if $searchInitial==''}<strong>{translate key="common.all"}</strong>{else}{translate key="common.all"}{/if}</a></p>
 {/if}
 
-{iterate from=journals item=journal}
-	{if $site->getSetting('showThumbnail')}
-		{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
-		<div style="clear:left;">
-		{if $displayJournalThumbnail && is_array($displayJournalThumbnail)}
-			{assign var="altText" value=$journal->getLocalizedSetting('journalThumbnailAltText')}
-			<div class="homepageImage"><a href="{url journal=$journal->getPath()}" class="action"><img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} /></a></div>
-		{/if}
+<div class="journal-list-container">
+
+
+
+	<div class="row">
+		{iterate from=journals item=journal}
+		<div class="col-xs-4">
+			<div class="panel panel-default">
+				<div class="panel-body text-center">
+					<div>
+						<img
+							src="data:image/svg+xml;charset=utf-8,<svg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'100'%20height%3D'142'><rect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'crimson'%2F><line%20x1%3D'0'%20x2%3D'100'%20y1%3D'0'%20y2%3D'142'%20stroke%3D'gainsboro'%2F>%20<line%20x1%3D'100'%20x2%3D'0'%20y1%3D'0'%20y2%3D'142'%20stroke%3D'gainsboro'%2F><text%20x%3D'50'%20y%3D'76'%20font-size%3D'20'%20font%3D'Verdana%2C%20sans-serif'%20fill%3D'white'%20text-anchor%3D'middle'>100%20x%20142<%2Ftext><%2Fsvg>">
+					</div>
+					<div class="caption">
+						<h4>Thumbnail label</h4>
+						<p>Descripción</p>
+					</div>
+				</div>
+			</div>
 		</div>
-	{/if}
-	{if $site->getSetting('showTitle')}
-		<h3>{$journal->getLocalizedTitle()|escape}</h3>
-	{/if}
-	{if $site->getSetting('showDescription')}
-		{if $journal->getLocalizedDescription()}
+		{/iterate}
+	</div>
+
+	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+	  <!-- Indicators -->
+	  <ol class="carousel-indicators">
+	    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+	    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+	    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+	  </ol>
+	
+	  <!-- Wrapper for slides -->
+	  <div class="carousel-inner" role="listbox">
+	    <div class="item active">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					lasjdfklajsdklfj
+					asldfjklasdjfla
+					aklsjdflkasf	
+				</div>
+			</div>
+	    </div>
+	    <div class="item">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					lasjdfklajsdklfj
+					asldfjklasdjfla
+					aklsjdflkasf	
+				</div>
+			</div>
+	    </div>
+	    <div class="item">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					lasjdfklajsdklfj
+					asldfjklasdjfla
+					aklsjdflkasf	
+				</div>
+			</div>
+	    </div>
+	  </div>
+	
+	  <!-- Controls -->
+	  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+	    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	    <span class="sr-only">Previous</span>
+	  </a>
+	  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+	    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	    <span class="sr-only">Next</span>
+	  </a>
+	</div>
+
+	{iterate from=journals item=journal}
+		<div class="journal-list-item">
+			{if $site->getSetting('showThumbnail')}
+				{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
+				<div class="image-wrapper" style="clear:left;">
+				{if $displayJournalThumbnail && is_array($displayJournalThumbnail)}
+					{assign var="altText" value=$journal->getLocalizedSetting('journalThumbnailAltText')}
+					<div class="homepageImage"><a href="{url journal=$journal->getPath()}" class="action"><img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} /></a></div>
+				{/if}
+				</div>
+			{/if}
+			{if $site->getSetting('showTitle')}
+				<h3 class="title">{$journal->getLocalizedTitle()|escape}</h3>
+			{/if}
+			{if $site->getSetting('showDescription')}
+				{if $journal->getLocalizedDescription()}
 			<div class="journalDescription" id="journalDescription-{$journal->getId()|escape}">
 				{$journal->getLocalizedDescription()|nl2br}
 			</div>
-		{/if}
-	{/if}
-	<p><a href="{url journal=$journal->getPath()}" class="action">{translate key="site.journalView"}</a> | <a href="{url journal=$journal->getPath() page="issue" op="current"}" class="action">{translate key="site.journalCurrent"}</a> | <a href="{url journal=$journal->getPath() page="user" op="register"}" class="action">{translate key="site.journalRegister"}</a></p>
-{/iterate}
+				{/if}
+			{/if}
+			<p class="links"><a href="{url journal=$journal->getPath()}" class="action action-view-journal">{translate key="site.journalView"}</a> | <a href="{url journal=$journal->getPath() page="issue" op="current"}" class="action">{translate key="site.journalCurrent"}</a> | <a href="{url journal=$journal->getPath() page="user" op="register"}" class="action">{translate key="site.journalRegister"}</a></p>
+		</div>
+	{/iterate}
+</div>
 {if $journals->wasEmpty()}
 	{translate key="site.noJournals"}
 {/if}
