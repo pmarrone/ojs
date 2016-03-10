@@ -57,7 +57,7 @@ class UncThemePlugin extends ThemePlugin {
 	}
 	
 	function addBootstrap(&$templateMgr) {
-		$templateMgr->addStyleSheet(Request::getBaseUrl() . '/' . $this->getPluginPath() . '/' . 'bootstrap.min.css');
+		$templateMgr->addStyleSheet(Request::getBaseUrl() . '/' . $this->getPluginPath() . '/css/bootstrap.min.css');
 		$additionalHeadData = $templateMgr->get_template_vars('additionalHeadData');
 		$additionalHeadData .= '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>' . "\n";
 		$additionalHeadData .= '<script type="text/javascript" src="' . Request::getBaseUrl() . '/plugins/themes/unc/js/bootstrap.js"></script>' . "\n";

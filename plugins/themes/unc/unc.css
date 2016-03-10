@@ -95,3 +95,23 @@ input.defaultButton {
 	font-family: Garamond,'Times New Roman',Times,serif;
 }
 
+.journal-list-item {
+	height: 260px;
+}
+
+.homepageImage img {
+	margin: auto;
+	float: none;
+}
+
+.carousel {
+	margin-bottom: 0;
+	padding: 0 40px 30px 40px;
+}
+
+.carousel-control.right, .carousel-control.left {
+	background-image: none;
+	background: transparent;
+}
+
+
