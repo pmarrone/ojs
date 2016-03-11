@@ -34,7 +34,7 @@ class UncThemePlugin extends ThemePlugin {
 	}
 
 	function getStylesheetFilename() {
-		return 'unc.css';
+		return 'css/unc.css';
 	}
 
 	function getLocaleFilename($locale) {
@@ -43,11 +43,7 @@ class UncThemePlugin extends ThemePlugin {
 	
 	function activate(&$templateMgr) {
 		$this->addBootstrap($templateMgr);
-		$additionalHeadData = $templateMgr->get_template_vars('additionalHeadData');
-		$additionalHeadData .= '<script type="text/javascript" src="' . Request::getBaseUrl() . '/plugins/themes/unc/js/slideshow.js"></script>' . "\n";
-		$templateMgr->assign('additionalHeadData', $additionalHeadData);
-		
-		
+		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');	
 		
 		if (($stylesheetFilename = $this->getStylesheetFilename()) != null) {
 			$path = Request::getBaseUrl() . '/' . $this->getPluginPath() . '/' . $stylesheetFilename;
@@ -58,10 +54,8 @@ class UncThemePlugin extends ThemePlugin {
 	
 	function addBootstrap(&$templateMgr) {
 		$templateMgr->addStyleSheet(Request::getBaseUrl() . '/' . $this->getPluginPath() . '/css/bootstrap.min.css');
-		$additionalHeadData = $templateMgr->get_template_vars('additionalHeadData');
-		$additionalHeadData .= '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>' . "\n";
-		$additionalHeadData .= '<script type="text/javascript" src="' . Request::getBaseUrl() . '/plugins/themes/unc/js/bootstrap.js"></script>' . "\n";
-		$templateMgr->assign('additionalHeadData', $additionalHeadData);
+		$templateMgr->addJavaScript($this->getPluginPath().'/js/jquery-1.12.1.min.js');
+		$templateMgr->addJavaScript($this->getPluginPath().'/js/bootstrap.js');
 	}
 }
 

@@ -33,6 +33,13 @@
 		    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 		    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
 		    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+		    		    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+		    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+		    		    <li data-target="#carousel-example-generic" data-slide-to="5"></li>
+		    <li data-target="#carousel-example-generic" data-slide-to="6"></li>
+		    		    <li data-target="#carousel-example-generic" data-slide-to="7"></li>
+		    <li data-target="#carousel-example-generic" data-slide-to="8"></li>
+		    		    <li data-target="#carousel-example-generic" data-slide-to="9"></li>
 		  </ol>
 		
 		  <!-- Wrapper for slides -->
@@ -67,16 +74,6 @@
 				{/iterate}
 				</div>
 			</div>
-			  
-		  <!-- Controls -->
-		  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-		    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		    <span class="sr-only">Previous</span>
-		  </a>
-		  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-		    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		    <span class="sr-only">Next</span>
-		  </a>
 		</div>
 	</div>
 
@@ -102,6 +99,7 @@
 			</div>
 				{/if}
 			{/if}
+			
 			<p class="links"><a href="{url journal=$journal->getPath()}" class="action action-view-journal">{translate key="site.journalView"}</a> | <a href="{url journal=$journal->getPath() page="issue" op="current"}" class="action">{translate key="site.journalCurrent"}</a> | <a href="{url journal=$journal->getPath() page="user" op="register"}" class="action">{translate key="site.journalRegister"}</a></p>
 		</div>
 	{/iterate}
