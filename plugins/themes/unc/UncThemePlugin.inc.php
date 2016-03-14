@@ -44,13 +44,20 @@ class UncThemePlugin extends ThemePlugin {
 	function activate(&$templateMgr) {
 		$this->addBootstrap($templateMgr);
 		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');	
+		$this->registerJournalGroupDAO ();
 		
-		if (($stylesheetFilename = $this->getStylesheetFilename()) != null) {
+		if (($stylesheetFilename = $this->getStylesheetFilename()) != null) {			
 			$path = Request::getBaseUrl() . '/' . $this->getPluginPath() . '/' . $stylesheetFilename;
-			
 			$templateMgr->addStyleSheet($path);
 		}
 	}
+
+ 	private function registerJournalGroupDAO() { 		
+		$this->import('classes.JournalGroupDAO');
+		$journalGroupDAO = new JournalGroupDAO($this->getName());
+		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
+	}
+
 	
 	function addBootstrap(&$templateMgr) {
 		$templateMgr->addStyleSheet(Request::getBaseUrl() . '/' . $this->getPluginPath() . '/css/bootstrap.min.css');
