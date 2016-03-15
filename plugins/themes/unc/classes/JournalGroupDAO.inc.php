@@ -14,8 +14,7 @@ class JournalGroupDAO extends JournalDAO {
 	}
 
 	function &getGroups($groupField, $sortField) {
-		$result =& $this->retrieve(
-				"SELECT js.setting_value, j.* FROM journals j 
+		$result =& $this->retrieve("SELECT js.setting_value, j.* FROM journals j 
 				JOIN journal_settings js ON js.journal_id = j.journal_id 
 				JOIN journal_settings sf ON sf.journal = j.journal_id 
 				ORDER BY ?, ?", $groupField, $sortField);
