@@ -16,6 +16,8 @@
 import('classes.plugins.ThemePlugin');
 
 class UncThemePlugin extends ThemePlugin {
+	
+	private $journalGroupDAO;
 	/**
 	 * Get the name of this plugin. The name must be unique within
 	 * its category.
@@ -44,7 +46,7 @@ class UncThemePlugin extends ThemePlugin {
 	function activate(&$templateMgr) {
 		$this->addBootstrap($templateMgr);
 		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');	
-		$this->registerJournalGroupDAO ();
+		$this->registerJournalGroupDAO ($templateMgr);
 		
 		if (($stylesheetFilename = $this->getStylesheetFilename()) != null) {			
 			$path = Request::getBaseUrl() . '/' . $this->getPluginPath() . '/' . $stylesheetFilename;
@@ -52,9 +54,10 @@ class UncThemePlugin extends ThemePlugin {
 		}
 	}
 
- 	private function registerJournalGroupDAO() { 		
+ 	private function registerJournalGroupDAO(&$templateMgr) { 		
 		$this->import('classes.JournalGroupDAO');
 		$journalGroupDAO = new JournalGroupDAO($this->getName());
+		$templateMgr->assign('journal_groups', $journalGroupDAO->getGroups('title', 'publisherInstitution'));
 		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
 	}
 
