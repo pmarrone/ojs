@@ -60,13 +60,17 @@
 					<div class="col-xs-3">
 						<div class="panel panel-default journal-list-item">
 							<div class="panel-body">
-								<div class="homepageImage">
-									{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
-									<img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} class="img-responsive"/>
-								</div>
+								<a href="{url journal=$journal->getPath()}">
+									<div class="homepageImage">
+										{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
+										<img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} class="img-responsive"/>
+									</div>
+								</a>
 								<div class="caption text-center">
-									<h4>{$journal->getLocalizedTitle()|escape}</h4>
-									<p>Descripción</p>
+									<a href="{url journal=$journal->getPath()}">
+										<h4>{$journal->getLocalizedTitle()|escape}</h4>
+									</a>
+									<p>{$journal->getSetting('publisherInstitution')}</p>
 								</div>
 							</div>
 						</div>
@@ -108,6 +112,8 @@
 	{translate key="site.noJournals"}
 {/if}
 
+
+
 <div id="journalListPageInfo">{page_info iterator=$journals}</div>
 <div id="journalListPageLinks">{page_links anchor="journals" name="journals" iterator=$journals}</div>
 <div>
@@ -129,5 +135,15 @@
 <a class="action" href="http://www.ojs.darwin.edu.ar/index.php/darwiniana/user/register">Registrarse</a>
 </p>
 </div>
+{foreach from=$journals_by_institution item=group key=institution}
+	<div class="h5">{$institution|default:"Sin categorizar"}</div>
+	<div class="row">
+	{foreach from=$group item=journal}
+		<div class="col-md-6">
+			<a href="{url journal=$journal->getPath()}">{$journal->getLocalizedTitle()|escape}</a>
+		</div>
+	{/foreach}
+	</div>
+{/foreach}
 {include file="common/footer.tpl"}
 

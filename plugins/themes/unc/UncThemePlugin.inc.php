@@ -57,7 +57,7 @@ class UncThemePlugin extends ThemePlugin {
  	private function registerJournalGroupDAO(&$templateMgr) { 		
 		$this->import('classes.JournalGroupDAO');
 		$journalGroupDAO = new JournalGroupDAO($this->getName());
-		$templateMgr->assign('journal_groups', $journalGroupDAO->getGroups('title', 'publisherInstitution'));
+		$templateMgr->assign('journals_by_institution', $journalGroupDAO->getGroups('publisherInstitution', 'title'));
 		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
 	}
 
