@@ -58,6 +58,17 @@ class UncThemePlugin extends ThemePlugin {
 		$this->import('classes.JournalGroupDAO');
 		$journalGroupDAO = new JournalGroupDAO($this->getName());
 		$templateMgr->assign('journals_by_institution', $journalGroupDAO->getGroups('publisherInstitution', 'title'));
+		
+		
+		$categoryDao =& DAORegistry::getDAO('CategoryDAO');
+		$cache =& $categoryDao->getCache();
+		$templateMgr->assign('categories', $cache);
+		// Sort by category name
+		uasort($cache, create_function('$a, $b', '$catA = $a[\'category\']; $catB = $b[\'category\']; return strcasecmp($catA->getLocalizedName(), $catB->getLocalizedName());'));
+		
+		
+		
+		$templateMgr->assign('journals_by_category', $journalGroupDAO->getGroups('category', 'title'));
 		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
 	}
 

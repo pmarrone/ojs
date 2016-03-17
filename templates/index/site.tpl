@@ -114,6 +114,50 @@
 
 <div id="journalListPageInfo">{page_info iterator=$journals}</div>
 <div id="journalListPageLinks">{page_links anchor="journals" name="journals" iterator=$journals}</div>
+
+<div class="">
+	<div class="">
+		<ul class="nav nav-tabs nav-justified">
+		  <li class="tab active h5"><a data-toggle="tab" href="#journals_by_publisher">Revistas por editorial</a></li>
+		  <li class="h5"><a data-toggle="tab" href="#journals_by_category">Revistas por categoría</a></li>
+		  <li class="h5"><a data-toggle="tab" href="#journals_by_initial">Íncide alfabético</a></li>
+		</ul>
+		<div class="tab-content">
+		  <div id="journals_by_publisher" class="tab-pane fade in active">
+			{foreach from=$journals_by_institution item=group key=institution}
+				<div class="h5">{$institution|default:"Sin categorizar"}</div>
+				<div class="row">
+				{foreach from=$group item=journal}
+					<div class="col-md-6">
+						<a href="{url journal=$journal->getPath()}">{$journal->getLocalizedTitle()|escape}</a>
+					</div>
+				{/foreach}
+				</div>
+			{/foreach}
+		  </div>
+		  <div id="journals_by_category" class="tab-pane fade">
+			{foreach from=$categories item=categoryArray}
+				{assign var=category value=$categoryArray.category}
+				{assign var=journalist value=$categoryArray.journal}
+				<div class="h5"><a href="{url op="category" path=$category->getId()}">{$category->getLocalizedName()|escape}</a> ({$categoryArray.journals|@count})</div>
+				<div class="row">
+				{foreach from=$categoryArray.journals item=journal}
+					<div class="col-md-6">
+						<a href="{url journal=$journal->getPath()}">{$journal->getLocalizedTitle()|escape}</a>
+					</div>
+				{/foreach}
+				</div>
+			{/foreach}
+					  
+		  </div>
+		  <div id="#journals_by_initial" class="tab-pane fade">
+		    <h3>Menu 2</h3>
+		    <p>Some content in menu 2.</p>
+		  </div>
+		</div>
+	</div>
+</div>
+
 <div>
 <!-- agregado -->
 <div style="clear:left;">
@@ -133,15 +177,6 @@
 <a class="action" href="http://www.ojs.darwin.edu.ar/index.php/darwiniana/user/register">Registrarse</a>
 </p>
 </div>
-{foreach from=$journals_by_institution item=group key=institution}
-	<div class="h5">{$institution|default:"Sin categorizar"}</div>
-	<div class="row">
-	{foreach from=$group item=journal}
-		<div class="col-md-6">
-			<a href="{url journal=$journal->getPath()}">{$journal->getLocalizedTitle()|escape}</a>
-		</div>
-	{/foreach}
-	</div>
-{/foreach}
+
 {include file="common/footer.tpl"}
 
