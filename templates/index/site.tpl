@@ -26,26 +26,19 @@
 {/if}
 
 	<div class="container-fluid">
-		
+		{assign var="itemsPerPage" value=8}
+		{assign var="pages"  value=$journals->getCount()/$itemsPerPage+1|floor}
 		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 		  <!-- Indicators -->
 		  <ol class="carousel-indicators">
-		    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-		    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-		    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-		    		    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
-		    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
-		    		    <li data-target="#carousel-example-generic" data-slide-to="5"></li>
-		    <li data-target="#carousel-example-generic" data-slide-to="6"></li>
-		    		    <li data-target="#carousel-example-generic" data-slide-to="7"></li>
-		    <li data-target="#carousel-example-generic" data-slide-to="8"></li>
-		    		    <li data-target="#carousel-example-generic" data-slide-to="9"></li>
+			{section name=indicators loop=$pages}
+				<li data-target="#carousel-example-generic" data-slide-to="{$smarty.section.indicators.index}" class="{if ($smarty.section.indicators.index==0)}active{/if}"></li>
+			{/section}
 		  </ol>
-		
+	  
 		  <!-- Wrapper for slides -->
-		  
 		  	<div class="journal-list-container carousel-inner">
-				{assign var="itemsPerPage" value=8}
+
 				{iterate from=journals item=journal index=itKey}
 					{if ($itKey) is div by $itemsPerPage} 				
 						{if ($itKey != 0)}
@@ -76,6 +69,7 @@
 						</div>
 					</div>
 				{/iterate}
+				
 				</div>
 			</div>
 		</div>
@@ -138,7 +132,7 @@
 			{/foreach}
 		  </div>
 		  <div id="journals_by_category" class="tab-pane fade">
-			{foreach from=$categories item=categoryArray}
+			{foreach from=$journals_by_category item=categoryArray}
 				{assign var=category value=$categoryArray.category}
 				{assign var=journalist value=$categoryArray.journal}
 				<div class="h5"><a href="{url op="category" path=$category->getId()}">{$category->getLocalizedName()|escape}</a> ({$categoryArray.journals|@count})</div>
@@ -150,11 +144,18 @@
 				{/foreach}
 				</div>
 			{/foreach}
-					  
 		  </div>
-		  <div id="#journals_by_initial" class="tab-pane fade">
-		    <h3>Menu 2</h3>
-		    <p>Some content in menu 2.</p>
+		  <div id="journals_by_initial" class="tab-pane fade">
+			{foreach from=$journals_by_initial item=group key=initial}
+				<div class="h5">{$initial|default:"Sin categorizar"}</div>
+				<div class="row">
+				{foreach from=$group item=journal}
+					<div class="col-md-6">
+						<a href="{url journal=$journal->getPath()}">{$journal->getLocalizedTitle()|escape}</a>
+					</div>
+				{/foreach}
+				</div>
+			{/foreach}
 		  </div>
 		</div>
 	</div>

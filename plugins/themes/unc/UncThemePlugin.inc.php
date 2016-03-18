@@ -23,6 +23,8 @@ class UncThemePlugin extends ThemePlugin {
 	 * its category.
 	 * @return String name of plugin
 	 */
+	private $templateManager = null;
+	
 	function getName() {
 		return 'UncThemePlugin';
 	}
@@ -44,9 +46,16 @@ class UncThemePlugin extends ThemePlugin {
 	}
 	
 	function activate(&$templateMgr) {
+		$this->templateManager = &$templateMgr;
 		$this->addBootstrap($templateMgr);
 		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');	
-		$this->registerJournalGroupDAO ($templateMgr);
+		
+		$this->registerJournalGroupDAO ();
+
+		$this->assignJournalsByInstitution();
+		$this->assignJournalsByCategory();
+		$this->assignJournalsByInitial();
+		
 		
 		if (($stylesheetFilename = $this->getStylesheetFilename()) != null) {			
 			$path = Request::getBaseUrl() . '/' . $this->getPluginPath() . '/' . $stylesheetFilename;
@@ -54,25 +63,30 @@ class UncThemePlugin extends ThemePlugin {
 		}
 	}
 
- 	private function registerJournalGroupDAO(&$templateMgr) { 		
-		$this->import('classes.JournalGroupDAO');
-		$journalGroupDAO = new JournalGroupDAO($this->getName());
-		$templateMgr->assign('journals_by_institution', $journalGroupDAO->getGroups('publisherInstitution', 'title'));
-		
-		
+ 	private function registerJournalGroupDAO() {
+ 		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
+ 		$this->import('classes.JournalGroupDAO');
+
+ 		$this->journalGroupDAO = new JournalGroupDAO($this->getName());
+
+	}
+	
+	private function assignJournalsByCategory () {
 		$categoryDao =& DAORegistry::getDAO('CategoryDAO');
 		$cache =& $categoryDao->getCache();
-		$templateMgr->assign('categories', $cache);
 		// Sort by category name
 		uasort($cache, create_function('$a, $b', '$catA = $a[\'category\']; $catB = $b[\'category\']; return strcasecmp($catA->getLocalizedName(), $catB->getLocalizedName());'));
-		
-		
-		
-		$templateMgr->assign('journals_by_category', $journalGroupDAO->getGroups('category', 'title'));
-		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
+		$this->templateManager->assign('journals_by_category', $cache);
+	}
+	
+	private function assignJournalsByInitial () {
+		$this->templateManager->assign('journals_by_initial', $this->journalGroupDAO->getGroupsByInitial('title'));
+	}
+	
+	private function assignJournalsByInstitution() {
+		$this->templateManager->assign('journals_by_institution', $this->journalGroupDAO->getGroups('publisherInstitution', 'title'));
 	}
 
-	
 	function addBootstrap(&$templateMgr) {
 		$templateMgr->addStyleSheet(Request::getBaseUrl() . '/' . $this->getPluginPath() . '/css/bootstrap.min.css');
 		$templateMgr->addJavaScript($this->getPluginPath().'/js/jquery-1.12.1.min.js');
