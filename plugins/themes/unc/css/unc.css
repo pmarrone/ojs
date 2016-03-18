@@ -97,6 +97,7 @@ input.defaultButton {
 
 .journal-list-item {
 	height: 260px;
+	overflow: hidden;
 }
 
 .homepageImage img {
