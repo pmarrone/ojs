@@ -76,7 +76,8 @@ class UncThemePlugin extends ThemePlugin {
 		$cache =& $categoryDao->getCache();
 		// Sort by category name
 		uasort($cache, create_function('$a, $b', '$catA = $a[\'category\']; $catB = $b[\'category\']; return strcasecmp($catA->getLocalizedName(), $catB->getLocalizedName());'));
-		$this->templateManager->assign('journals_by_category', $cache);
+		$this->templateManager->assign('jounals_by_category', $cache);
+		$this->templateManager->addStyleSheet('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&subset=latin,latin-ext');
 	}
 	
 	private function assignJournalsByInitial () {
