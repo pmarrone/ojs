@@ -1,16 +1,7 @@
 <?php
 
 /**
- * @file plugins/themes/steel/SteelThemePlugin.inc.php
- *
- * Copyright (c) 2013-2015 Simon Fraser University Library
- * Copyright (c) 2003-2015 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
- *
- * @class SteelThemePlugin
- * @ingroup plugins_themes_steel
- *
- * @brief "Steel" theme plugin
+ * @brief "UNC" theme plugin
  */
 
 import('classes.plugins.ThemePlugin');
@@ -50,8 +41,9 @@ class UncThemePlugin extends ThemePlugin {
 		$this->addBootstrap($templateMgr);
 		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');	
 		
-		$this->registerJournalGroupDAO ();
+		$this->registerJournalGroupDAO();
 
+		$this->insertDarwinianaIntoJournals();
 		$this->assignJournalsByInstitution();
 		$this->assignJournalsByCategory();
 		$this->assignJournalsByInitial();
@@ -59,14 +51,18 @@ class UncThemePlugin extends ThemePlugin {
 		
 		if (($stylesheetFilename = $this->getStylesheetFilename()) != null) {			
 			$path = Request::getBaseUrl() . '/' . $this->getPluginPath() . '/' . $stylesheetFilename;
-			$templateMgr->addStyleSheet($path);
+			$this->templateManager->addStyleSheet($path);
 		}
+	}
+	
+	private function insertDarwinianaIntoJournals() {
+		//$journals = $this->templateManager->smartyGetValue('journals');
 	}
 
  	private function registerJournalGroupDAO() {
  		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
  		$this->import('classes.JournalGroupDAO');
-
+		$this->import('classes.JournalMock');
  		$this->journalGroupDAO = new JournalGroupDAO($this->getName());
 
 	}
@@ -74,25 +70,59 @@ class UncThemePlugin extends ThemePlugin {
 	private function assignJournalsByCategory () {
 		$categoryDao =& DAORegistry::getDAO('CategoryDAO');
 		$cache =& $categoryDao->getCache();
+		$this->insertDarwinianaIntoCategories($cache);
+		
 		// Sort by category name
 		uasort($cache, create_function('$a, $b', '$catA = $a[\'category\']; $catB = $b[\'category\']; return strcasecmp($catA->getLocalizedName(), $catB->getLocalizedName());'));
-		$this->templateManager->assign('jounals_by_category', $cache);
+		
+		$this->templateManager->assign('journals_by_category', $cache);
 		$this->templateManager->addStyleSheet('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&subset=latin,latin-ext');
 	}
 	
+	private function insertDarwinianaIntoCategories(&$cache) {
+		$darwinianaCategoryName = 'Área Ciencias Naturales, Básicas y Aplicadas';
+		foreach($cache as &$cachedCategory) {
+			//Add a new group when setting_value changes
+			if ($cachedCategory != null && $cachedCategory['category']  != null && $cachedCategory['category']->getLocalizedName() === $darwinianaCategoryName) {
+				$cachedCategory['journals'][] = new JournalMock();
+				uasort($cachedCategory['journals'], function ($a, $b) {
+					return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
+				});
+			}
+		}
+	}
+	
 	private function assignJournalsByInitial () {
-		$this->templateManager->assign('journals_by_initial', $this->journalGroupDAO->getGroupsByInitial('title'));
+		$journalsByInitial = $this->journalGroupDAO->getGroupsByInitial('title');
+		$this->insertDarwinianaIntoGroup($journalsByInitial, 'R');
+		$this->templateManager->assign('journals_by_initial', $journalsByInitial);
 	}
 	
 	private function assignJournalsByInstitution() {
-		$this->templateManager->assign('journals_by_institution', $this->journalGroupDAO->getGroups('publisherInstitution', 'title'));
+		$journalsByInstitution = $this->journalGroupDAO->getGroups('publisherInstitution', 'title');
+		$this->insertDarwinianaIntoGroup($journalsByInstitution, 'Instituto de Botánica Darwinion y Museo Botánico de Córdoba');
+		$this->templateManager->assign('journals_by_institution', $journalsByInstitution);
 	}
+	
+	private function insertDarwinianaIntoGroup(&$cache, $group) {
+		//Add a new group when setting_value changes
+		if ($cache[$group]  == null) {
+			$cache[$group] = array();
+			ksort($cache);
+		}
+		$cache[$group][] = new JournalMock();
+		uasort($cachedCategory[$group], function ($a, $b) {
+			return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
+		});
+	}
+	
 
 	function addBootstrap(&$templateMgr) {
 		$templateMgr->addStyleSheet(Request::getBaseUrl() . '/' . $this->getPluginPath() . '/css/bootstrap.min.css');
 		$templateMgr->addJavaScript($this->getPluginPath().'/js/jquery-1.12.1.min.js');
 		$templateMgr->addJavaScript($this->getPluginPath().'/js/bootstrap.js');
 	}
+	
 }
 
 ?>
