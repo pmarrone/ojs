@@ -27,7 +27,7 @@
 
 	<div class="container-fluid">
 		{assign var="itemsPerPage" value=8}
-		{assign var="pages"  value=$journals->getCount()/$itemsPerPage+1|floor}
+		{assign var="pages"  value=$journals->getCount()/$itemsPerPage|floor}
 		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 		  <!-- Indicators -->
 		  <ol class="carousel-indicators">
@@ -53,14 +53,14 @@
 					<div class="col-xs-3">
 						<div class="panel panel-default journal-list-item">
 							<div class="panel-body">
-								<a href="{url journal=$journal->getPath()}">
+								<a href="{$journal->getUrl()}">
 									<div class="homepageImage">
 										{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
 										<img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} class="img-responsive"/>
 									</div>
 								</a>
 								<div class="caption text-center">
-									<a href="{url journal=$journal->getPath()}">
+									<a href="{$journal->getUrl()}">
 										<h4>{$journal->getLocalizedTitle()|escape}</h4>
 									</a>
 									<p>{$journal->getSetting('publisherInstitution')}</p>
@@ -83,7 +83,7 @@
 				<div class="image-wrapper" style="clear:left;">
 				{if $displayJournalThumbnail && is_array($displayJournalThumbnail)}
 					{assign var="altText" value=$journal->getLocalizedSetting('journalThumbnailAltText')}
-					<div class="homepageImage"><a href="{url journal=$journal->getPath()}" class="action"><img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} /></a></div>
+					<div class="homepageImage"><a href="{$journal->getUrl()}" class="action"><img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} /></a></div>
 				{/if}
 				</div>
 			{/if}
@@ -96,7 +96,7 @@
 				{/if}
 			{/if}
 			
-			<p class="links"><a href="{url journal=$journal->getPath()}" class="action action-view-journal">{translate key="site.journalView"}</a> | <a href="{url journal=$journal->getPath() page="issue" op="current"}" class="action">{translate key="site.journalCurrent"}</a> | <a href="{url journal=$journal->getPath() page="user" op="register"}" class="action">{translate key="site.journalRegister"}</a></p>
+			<p class="links"><a href="{$journal->getUrl()}" class="action action-view-journal">{translate key="site.journalView"}</a> | <a href="{$journal->getUrl() page="issue" op="current"}" class="action">{translate key="site.journalCurrent"}</a> | <a href="{$journal->getUrl() page="user" op="register"}" class="action">{translate key="site.journalRegister"}</a></p>
 		</div>
 	{/iterate}
 </div>
@@ -123,7 +123,7 @@
 				<div class="row">
 				{foreach from=$group item=journal}
 					<div class="col-md-6">
-						<a href="{url journal=$journal->getPath()}">{$journal->getLocalizedTitle()|escape}</a>
+						<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
 					</div>
 				{/foreach}
 				</div>
@@ -133,11 +133,11 @@
 			{foreach from=$journals_by_category item=categoryArray}
 				{assign var=category value=$categoryArray.category}
 				{assign var=journalist value=$categoryArray.journal}
-				<div class="h5"><a href="{url op="category" path=$category->getId()}">{$category->getLocalizedName()|escape}</a> ({$categoryArray.journals|@count})</div>
+				<div class="h5">{$category->getLocalizedName()|escape}</div>
 				<div class="row">
 				{foreach from=$categoryArray.journals item=journal}
 					<div class="col-md-6">
-						<a href="{url journal=$journal->getPath()}">{$journal->getLocalizedTitle()|escape}</a>
+						<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
 					</div>
 				{/foreach}
 				</div>
@@ -149,7 +149,7 @@
 				<div class="row">
 				{foreach from=$group item=journal}
 					<div class="col-md-6">
-						<a href="{url journal=$journal->getPath()}">{$journal->getLocalizedTitle()|escape}</a>
+						<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
 					</div>
 				{/foreach}
 				</div>

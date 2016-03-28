@@ -41,8 +41,6 @@ class JournalGroupDAO extends JournalDAO {
 	
 	private function &groupRowsByGroupField(&$rows) {
 		$groups = array();
-	
-	
 		$currentValue = null;
 		$currentGroup = null;
 		foreach($rows as $row) {
