@@ -38,8 +38,9 @@
 	  
 		  <!-- Wrapper for slides -->
 		  	<div class="journal-list-container carousel-inner">
-
-				{iterate from=journals item=journal index=itKey}
+		  		
+				{foreach from=$journals_extended item=journal name=journals}
+					{assign var="itKey" value=$smarty.foreach.journals.index}
 					{if ($itKey) is div by $itemsPerPage} 				
 						{if ($itKey != 0)}
 							<!-- Close last group -->
@@ -50,14 +51,26 @@
 						<div class="item {if ($itKey == 0)} active {/if}">
 							<div class="row journal-list-group">
 					{/if}
+
 					<div class="col-xs-3">
 						<div class="panel panel-default journal-list-item">
 							<div class="panel-body">
 								<a href="{$journal->getUrl()}">
+									{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
+									{if $displayJournalThumbnail && is_array($displayJournalThumbnail)}
+										{assign var="thumbnail" value=$journalFilesPath|cat:$journal->getId()|cat:"/"|cat:$displayJournalThumbnail.uploadName}
+									{elseif $journal->getLocalizedSetting('journalThumbnail')}
+										{assign var="thumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
+									{else}
+										{assign var="thumbnail" value=null}
+									{/if}
+									
+									{if $thumbnail}
 									<div class="homepageImage">
-										{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
-										<img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} class="img-responsive"/>
+										{assign var="altText" value=$journal->getLocalizedSetting('journalThumbnailAltText')}
+										<img src="{$thumbnail}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} class="img-responsive"/>
 									</div>
+									{/if}
 								</a>
 								<div class="caption text-center">
 									<a href="{$journal->getUrl()}">
@@ -68,37 +81,38 @@
 							</div>
 						</div>
 					</div>
-				{/iterate}
+				{/foreach}
 				
 				</div>
 			</div>
 		</div>
 	</div>
 
-
-	{iterate from=journals item=journal}
-		<div class="journal-list-item">
-			{if $site->getSetting('showThumbnail')}
-				{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
-				<div class="image-wrapper" style="clear:left;">
-				{if $displayJournalThumbnail && is_array($displayJournalThumbnail)}
-					{assign var="altText" value=$journal->getLocalizedSetting('journalThumbnailAltText')}
-					<div class="homepageImage"><a href="{$journal->getUrl()}" class="action"><img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} /></a></div>
+	{if !journals_extended}
+		{iterate from=journals item=journal}
+			<div class="journal-list-item">
+				{if $site->getSetting('showThumbnail')}
+					{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
+					<div class="image-wrapper" style="clear:left;">
+					{if $displayJournalThumbnail && is_array($displayJournalThumbnail)}
+						{assign var="altText" value=$journal->getLocalizedSetting('journalThumbnailAltText')}
+						<div class="homepageImage"><a href="{$journal->getUrl()}" class="action"><img src="{$journalFilesPath}{$journal->getId()}/{$displayJournalThumbnail.uploadName|escape:"url"}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} /></a></div>
+					{/if}
+					</div>
 				{/if}
-				</div>
-			{/if}
-			{if $site->getSetting('showTitle')}
-				<h3 class="title">{$journal->getLocalizedTitle()|escape}</h3>
-			{/if}
-			{if $site->getSetting('showDescription')}
-				{if $journal->getLocalizedDescription()}
-					<p>{$journal->getLocalizedDescription()|nl2br}</p>
+				{if $site->getSetting('showTitle')}
+					<h3 class="title">{$journal->getLocalizedTitle()|escape}</h3>
 				{/if}
-			{/if}
-			
-			<p class="links"><a href="{$journal->getUrl()}" class="action action-view-journal">{translate key="site.journalView"}</a> | <a href="{$journal->getUrl() page="issue" op="current"}" class="action">{translate key="site.journalCurrent"}</a> | <a href="{$journal->getUrl() page="user" op="register"}" class="action">{translate key="site.journalRegister"}</a></p>
-		</div>
-	{/iterate}
+				{if $site->getSetting('showDescription')}
+					{if $journal->getLocalizedDescription()}
+						<p>{$journal->getLocalizedDescription()|nl2br}</p>
+					{/if}
+				{/if}
+				
+				<p class="links"><a href="{$journal->getUrl()}" class="action action-view-journal">{translate key="site.journalView"}</a> | <a href="{$journal->getUrl() page="issue" op="current"}" class="action">{translate key="site.journalCurrent"}</a> | <a href="{$journal->getUrl() page="user" op="register"}" class="action">{translate key="site.journalRegister"}</a></p>
+			</div>
+		{/iterate}
+	{/if}
 </div>
 {if $journals->wasEmpty()}
 	{translate key="site.noJournals"}
@@ -160,6 +174,8 @@
 </div>
 
 <div>
+
+{if !journals_extended}
 <!-- agregado -->
 <div style="clear:left;">
 <div class="homepageImage">
@@ -178,6 +194,6 @@
 <a class="action" href="http://www.ojs.darwin.edu.ar/index.php/darwiniana/user/register">Registrarse</a>
 </p>
 </div>
-
+{/if}
 {include file="common/footer.tpl"}
 

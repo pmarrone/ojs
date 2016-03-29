@@ -46,7 +46,8 @@ class JournalMock extends Journal {
 							versión impresa (ISSN 0011-6793).',
 				'title' => 'Revista Darwiniana, nueva serie',
 				'primaryLocale' => 'es',
-				'initials' => 'D'
+				'initials' => 'D',
+				'journalThumbnail' => 'http://www.ojs.darwin.edu.ar/public/journals/2/cover_issue_35_es_ES.jpg'
 		);
 	}
 
@@ -285,7 +286,7 @@ class JournalMock extends Journal {
 	 * @return mixed
 	 */
 	function &getLocalizedSetting($name, $preferredLocale = null) {
-		return $this->setttings[name];
+		return $this->settings[$name];
 	}
 
 	/**
@@ -295,7 +296,7 @@ class JournalMock extends Journal {
 	 * @return mixed
 	 */
 	function &getSetting($name, $locale = null) {
-		return $this->setttings[name];
+		return $this->settings[$name];
 	}
 }
 ?>
