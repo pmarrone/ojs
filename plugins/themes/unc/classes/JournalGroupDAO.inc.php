@@ -21,6 +21,7 @@ class JournalGroupDAO extends JournalDAO {
 		$result =& $this->retrieve("SELECT gf.setting_value as group_field, j.* FROM journals j 
 				JOIN journal_settings gf ON gf.journal_id = j.journal_id AND gf.setting_name = ? AND (gf.locale = '' OR gf.locale = ?)
 				JOIN journal_settings sf ON sf.journal_id = j.journal_id AND sf.setting_name = ? AND (sf.locale = '' OR sf.locale = ?)
+				WHERE j.enabled=1
 				ORDER BY gf.setting_value, sf.setting_value", [$groupField, AppLocale::getLocale(), $sortField, AppLocale::getLocale()]);
 		
 		$rows = $result->GetRows();

@@ -42,8 +42,8 @@ class UncThemePlugin extends ThemePlugin {
 		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');	
 		
 		$this->registerJournalGroupDAO();
-
-		$this->insertDarwinianaIntoJournals();
+		
+		$this->assignJournalsExtended();
 		$this->assignJournalsByInstitution();
 		$this->assignJournalsByCategory();
 		$this->assignJournalsByInitial();
@@ -55,8 +55,19 @@ class UncThemePlugin extends ThemePlugin {
 		}
 	}
 	
-	private function insertDarwinianaIntoJournals() {
-		//$journals = $this->templateManager->smartyGetValue('journals');
+	private function assignJournalsExtended() {
+		$journals =& $this->journalGroupDAO->getJournals(true);
+		$this->templateManager->assign('journals_extended', $journals->toArray());
+		$this->insertDarwinianaIntoJournalsExtended($journals);
+	}
+	
+	private function insertDarwinianaIntoJournalsExtended(&$journals) {
+		$journals = $this->templateManager->get_template_vars('journals_extended');
+		$journals[] = new JournalMock();
+		uasort($journals, function ($a, $b) {
+			return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
+		});
+		$this->templateManager->assign('journals_extended', $journals);
 	}
 
  	private function registerJournalGroupDAO() {
