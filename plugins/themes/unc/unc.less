@@ -1,0 +1,212 @@
+/**
+ * plugins/themes/steel/steel.css
+ *
+ * Copyright (c) 2013-2015 Simon Fraser University Library
+ * Copyright (c) 2003-2015 John Willinsky
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ *
+ * Steel theme.
+ *
+ */
+
+@import (reference) "less/bootstrap.less";
+
+.theme-font() {
+	font-family: "Open sans", sans-serif;
+} 
+
+body {
+	background-color: #ffffff;
+	color: #111111;
+}
+
+#sidebar, #rightSidebar, #sidebar div.block {
+	//.reset-text();
+	.theme-font();
+}
+
+a:link {
+	color: #ab3834;
+}
+
+a:active {
+	color: #ab3834;
+}
+
+a:visited {
+	color: #808080;
+}
+
+a:hover {
+	color: #808080;
+	background: #ffffff;
+}
+
+input.textField, select.selectMenu, textarea.textArea, input.uploadField {
+	&:extend(.form-control all);
+	//background-color: #f0f0f0;
+
+}
+
+input.defaultButton {
+	background-color: #000000;
+	color: #ffffff;
+}
+
+#sidebar div.block span.blockTitle {
+	&:extend(.h5 all);
+	.theme-font();
+}
+
+#sidebar {
+	label {
+		&:extend(.h6 all);
+		.theme-font();
+	}
+	ul {
+		&:extend(.list-group all);
+		li {
+			&:extend(.list-group-item all);
+		}
+	}
+}
+
+input.button {
+	&:extend(.btn all);
+	&:extend(.btn-default all);
+	.theme-font();
+}
+
+#header {
+	//background-color: #ab3834;
+	//border-bottom: 1px solid black;
+	.theme-font();	
+}
+
+#headerTitle {
+	color: #ffffff;
+}
+
+
+#footer {
+	width: 100%;
+}
+
+#main {
+	padding-left: 5px;
+	background-color: transparent;
+	//border-left: 1px solid black;
+	//border-right: 1px solid black;
+	//border-bottom: 1px solid black;
+	
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+	.theme-font();
+}
+
+#header h1 {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	.theme-font();
+}
+
+
+
+
+#navbar { 
+	ul.menu {
+		&:extend(.nav all);
+		&:extend(.navbar-nav all);
+	}
+
+	&:extend(.navbar all);
+	&:extend(.navbar-default all);
+	//&:extend(.navbar-collapse all);
+	//border-bottom: 1px dotted #000;
+}
+
+#navbar a {
+	font-size: inherit;
+	letter-spacing: inherit;
+}
+
+#navbar a {
+	background-color: inherit;
+	padding: inherit;
+	color: inherit;
+}
+
+
+
+#breadcrumb {
+	border-bottom: 1px dotted black;
+}
+
+#content {
+	border-top: 0px dotted #000;
+}
+
+#content h3 {
+	.theme-font();
+}
+
+#content h4 {
+	.theme-font();
+}
+
+.journal-list-item {
+	height: 260px;
+	overflow: hidden;
+}
+
+.homepageImage img {
+	margin: auto;
+	float: none;
+}
+
+.carousel {
+	margin-bottom: 0;
+	padding: 0 40px 30px 40px;
+}
+
+.carousel-control.right, .carousel-control.left {
+	background-image: none;
+	background: transparent;
+}
+
+
+.carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #000\9;
+    /* background-color: rgba(0,0,0,0); */
+    border: 1px solid #291515;
+    border-radius: 10px;
+    -webkit-box-shadow: 68px 65px 115px -48px rgba(0,0,0,0.75);
+}
+
+.carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #000\9;
+    /* background-color: rgba(0,0,0,0); */
+    border: 1px solid #291515;
+    border-radius: 10px;
+    -webkit-box-shadow: 68px 65px 115px -48px rgba(0,0,0,0.75);
+}
+
+.carousel-indicators .active {
+    /* width: 12px; */
+    /* height: 12px; */
+    margin: 0;
+    background-color: grey;
+}
