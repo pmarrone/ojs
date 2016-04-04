@@ -31,7 +31,10 @@
 						{$queryFilter}
 					{/if}
 					&nbsp;
-					<input type="submit" value="{translate key="common.search"}" class="button defaultButton" />
+					
+				</td>
+				<td>
+					<input type="submit" id="query" value="{translate key="common.search"}" class="button defaultButton" />
 				</td>
 			</tr>
 			{if $siteSearch}

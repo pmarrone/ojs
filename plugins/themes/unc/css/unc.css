@@ -1155,10 +1155,6 @@ a:hover {
   color: #808080;
   background: #ffffff;
 }
-input.defaultButton {
-  background-color: #000000;
-  color: #ffffff;
-}
 #sidebar label {
   padding-right: 10px;
   font-family: "Open sans", sans-serif;
@@ -1173,6 +1169,9 @@ input.defaultButton {
 }
 input.button {
   font-family: "Open sans", sans-serif;
+}
+#query.button {
+  margin-left: 10px;
 }
 #header {
   font-family: "Open sans", sans-serif;
@@ -1296,6 +1295,8 @@ table.listing {
 }
 td.label {
   display: table-cell;
+  font-size: 14px;
+  line-height: 34px;
 }
 .label {
   color: inherit;
