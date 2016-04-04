@@ -28,10 +28,7 @@
 	<div class="container-fluid">
 		{assign var="itemsPerPage" value=8}
 		{capture assign="journals_extended_count}{$journals_extended|@count}{/capture}	
-		{$journals_extended_count}
 		{assign var="pages"  value=$journals_extended_count/$itemsPerPage|floor}
-		
-		TEST
 		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 		  <!-- Indicators -->
 		  <ol class="carousel-indicators">
