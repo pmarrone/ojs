@@ -46,11 +46,6 @@ input.textField, select.selectMenu, textarea.textArea, input.uploadField {
 	&:extend(.form-control all);
 }
 
-input.defaultButton {
-	background-color: #000000;
-	color: #ffffff;
-}
-
 #sidebar {
 	label {
 		&:extend(.h6 all);
@@ -78,6 +73,10 @@ input.button {
 	&:extend(.btn all);
 	&:extend(.btn-default all);
 	.theme-font();
+}
+
+#query.button {
+	margin-left: 10px;
 }
 
 #header {
@@ -225,6 +224,8 @@ table.listing {
 
 td.label {
 	display: table-cell;
+    font-size: 14px;
+    line-height: 34px;
 }
 
 .label {
