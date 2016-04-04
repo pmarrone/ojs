@@ -19,10 +19,13 @@ class JournalGroupDAO extends JournalDAO {
 
 	function &getGroups($groupField, $sortField, $groupFunctionName='groupRowsByGroupField') {
 		$result =& $this->retrieve("SELECT gf.setting_value as group_field, j.* FROM journals j 
-				JOIN journal_settings gf ON gf.journal_id = j.journal_id AND gf.setting_name = ? AND (gf.locale = '' OR gf.locale = ?)
-				JOIN journal_settings sf ON sf.journal_id = j.journal_id AND sf.setting_name = ? AND (sf.locale = '' OR sf.locale = ?)
+				JOIN journal_settings gf ON gf.journal_id = j.journal_id AND gf.setting_name = ? AND 
+				(gf.locale = '' OR gf.locale = ? OR (NOT EXISTS(SELECT 'x' FROM journal_settings js WHERE js.journal_id = j.journal_id AND js.setting_name = gf.setting_name AND js.locale = ?) AND gf.locale = ?))  
+				JOIN journal_settings sf ON sf.journal_id = j.journal_id AND sf.setting_name = ? AND 
+				(sf.locale = '' OR sf.locale = ? OR (NOT EXISTS(SELECT 'x' FROM journal_settings js WHERE js.journal_id = j.journal_id AND js.setting_name = sf.setting_name AND js.locale = ?) AND sf.locale = ?))
 				WHERE j.enabled=1
-				ORDER BY gf.setting_value, sf.setting_value", [$groupField, AppLocale::getLocale(), $sortField, AppLocale::getLocale()]);
+				ORDER BY gf.setting_value, sf.setting_value", 
+				[$groupField, AppLocale::getLocale(),  AppLocale::getLocale(), AppLocale::getPrimaryLocale(), $sortField, AppLocale::getLocale(), AppLocale::getLocale(),  AppLocale::getPrimaryLocale()]);
 		
 		$rows = $result->GetRows();
 		
