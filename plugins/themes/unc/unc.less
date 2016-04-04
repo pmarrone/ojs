@@ -119,6 +119,9 @@ input.button {
 
 	&:extend(.navbar all);
 	&:extend(.navbar-default all);
+	background-color: #eee;
+	border-style: none;
+	border-radius: 2px;
 }
 
 #navbar a {
@@ -159,10 +162,28 @@ input.button {
 	overflow: hidden;
 }
 
-.homepageImage img {
-	margin: auto;
-	float: none;
+.homepageImage {
+	min-height: 155px;
+	line-height: 155px;
+	vertical-align: middle;
+	position: relative;
+	
+	a {
+		position: absolute;
+		bottom: 10px;
+		width: 100%;
+		text-align: center;
+		img {
+			width: auto;
+			height: 140px;
+			float: none;
+			margin: 0 auto;
+			border: 1px solid #ddd;
+		}
+	}
 }
+
+
 
 .carousel {
     padding: 10px 0px 60px 0px;

@@ -26,9 +26,9 @@
 {/if}
 
 	<div class="container-fluid">
-		{assign var="itemsPerPage" value=8}
+		{assign var="itemsPerPage" value=6}
 		{capture assign="journals_extended_count}{$journals_extended|@count}{/capture}	
-		{assign var="pages"  value=$journals_extended_count/$itemsPerPage|floor}
+		{assign var="pages"  value=$journals_extended_count/$itemsPerPage|ceil}
 		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 		  <!-- Indicators -->
 		  <ol class="carousel-indicators">
@@ -53,10 +53,10 @@
 							<div class="row journal-list-group">
 					{/if}
 
-					<div class="col-xs-3">
+					<div class="col-xs-6 col-md-4">
 						<div class="panel panel-default journal-list-item">
 							<div class="panel-body">
-								<a href="{$journal->getUrl()}">
+								
 									{assign var="displayJournalThumbnail" value=$journal->getLocalizedSetting('journalThumbnail')}
 									{if $displayJournalThumbnail && is_array($displayJournalThumbnail)}
 										{assign var="thumbnail" value=$journalFilesPath|cat:$journal->getId()|cat:"/"|cat:$displayJournalThumbnail.uploadName}
@@ -68,11 +68,13 @@
 									
 									{if $thumbnail}
 									<div class="homepageImage">
-										{assign var="altText" value=$journal->getLocalizedSetting('journalThumbnailAltText')}
-										<img src="{$thumbnail}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} class="img-responsive"/>
+										<a href="{$journal->getUrl()}">
+											{assign var="altText" value=$journal->getLocalizedSetting('journalThumbnailAltText')}
+											<img src="{$thumbnail}" {if $altText != ''}alt="{$altText|escape}"{else}alt="{translate key="common.pageHeaderLogo.altText"}"{/if} />										
+										</a>
 									</div>
 									{/if}
-								</a>
+								
 								<div class="caption text-center">
 									<a href="{$journal->getUrl()}">
 										<h4>{$journal->getLocalizedTitle()|escape}</h4>
@@ -83,7 +85,13 @@
 						</div>
 					</div>
 				{/foreach}
-				
+				{section name=fill-journals loop="$journals_extended_count%$itemsPerPage}
+					<div class="col-xs-6 col-md-4">
+						<div class="panel panel-default journal-list-item">
+							<div class="panel-body"></div>
+						</div>
+					</div>
+				{/section}
 				</div>
 			</div>
 		</div>
