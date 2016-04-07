@@ -25,7 +25,7 @@ class JournalGroupDAO extends JournalDAO {
 				(sf.locale = '' OR sf.locale = ? OR (NOT EXISTS(SELECT 'x' FROM journal_settings js WHERE js.journal_id = j.journal_id AND js.setting_name = sf.setting_name AND js.locale = ?) AND sf.locale = ?))
 				WHERE j.enabled=1
 				ORDER BY gf.setting_value, sf.setting_value", 
-				[$groupField, AppLocale::getLocale(),  AppLocale::getLocale(), AppLocale::getPrimaryLocale(), $sortField, AppLocale::getLocale(), AppLocale::getLocale(),  AppLocale::getPrimaryLocale()]);
+				array($groupField, AppLocale::getLocale(),  AppLocale::getLocale(), AppLocale::getPrimaryLocale(), $sortField, AppLocale::getLocale(), AppLocale::getLocale(),  AppLocale::getPrimaryLocale()));
 		
 		$rows = $result->GetRows();
 		
