@@ -85,7 +85,7 @@
 						</div>
 					</div>
 				{/foreach}
-				{section name=fill-journals loop="$journals_extended_count%$itemsPerPage}
+				{section name=fill-journals loop=$itemsPerPage-$journals_extended_count%$itemsPerPage}
 					<div class="col-xs-6 col-md-4">
 						<div class="panel panel-default journal-list-item">
 							<div class="panel-body"></div>
