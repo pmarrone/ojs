@@ -1181,6 +1181,7 @@ input.button {
   padding-bottom: 0px;
 }
 #headerTitle {
+  background-color: #ffffff;
   color: #ffffff;
 }
 #footer {
@@ -1210,7 +1211,11 @@ h6,
   font-family: "Open sans", sans-serif;
 }
 #navbar {
-  background-color: #eee;
+  background-color: #A2BD36;
+  background-image: url(../images/stripes.png);
+  min-height: 66px;
+  background-position: bottom;
+  background-repeat: repeat-x;
   border-style: none;
   border-radius: 2px;
 }
