@@ -15,8 +15,6 @@
 {include file="common/header.tpl"}
 {/strip}
 
-<br />
-
 {if $intro}<div id="intro">{$intro|nl2br}</div>{/if}
 
 <a name="journals"></a>
