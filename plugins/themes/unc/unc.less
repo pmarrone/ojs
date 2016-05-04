@@ -114,6 +114,7 @@ input.button {
 }
 
 #navbar { 
+	.clearfix();
 	ul.menu {
 		&:extend(.nav all);
 		&:extend(.navbar-nav all);
@@ -121,11 +122,13 @@ input.button {
 
 	&:extend(.navbar all);
 	&:extend(.navbar-default all);
+	
+	
 	background-color: #A2BD36;
 	background-image: url(../images/stripes.png);
 	min-height: 66px;
-    background-position: bottom;
-    background-repeat: repeat-x;
+	background-position: bottom;
+	background-repeat: repeat-x;
 
 	border-style: none;
 	border-radius: 2px;
