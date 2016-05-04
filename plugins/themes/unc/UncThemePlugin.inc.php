@@ -39,7 +39,8 @@ class UncThemePlugin extends ThemePlugin {
 	function activate(&$templateMgr) {
 		$this->templateManager = &$templateMgr;
 		$this->addBootstrap($templateMgr);
-		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');	
+		$templateMgr->addJavaScript('/plugins/themes/unc/js/touchSwipe/jquery.touchSwipe.js');
+		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');
 		
 		$this->registerJournalGroupDAO();
 		
@@ -59,15 +60,6 @@ class UncThemePlugin extends ThemePlugin {
 		$journals =& $this->journalGroupDAO->getJournals(true);
 		$this->templateManager->assign('journals_extended', $journals->toArray());
 		$this->insertDarwinianaIntoJournalsExtended($journals);
-	}
-	
-	private function insertDarwinianaIntoJournalsExtended(&$journals) {
-		$journals = $this->templateManager->get_template_vars('journals_extended');
-		$journals[] = new JournalMock();
-		uasort($journals, function ($a, $b) {
-			return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
-		});
-		$this->templateManager->assign('journals_extended', $journals);
 	}
 
  	private function registerJournalGroupDAO() {
@@ -90,18 +82,7 @@ class UncThemePlugin extends ThemePlugin {
 		$this->templateManager->addStyleSheet('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&subset=latin,latin-ext');
 	}
 	
-	private function insertDarwinianaIntoCategories(&$cache) {
-		$darwinianaCategoryName = 'Área Ciencias Naturales, Básicas y Aplicadas';
-		foreach($cache as &$cachedCategory) {
-			//Add a new group when setting_value changes
-			if ($cachedCategory != null && $cachedCategory['category']  != null && $cachedCategory['category']->getLocalizedName() === $darwinianaCategoryName) {
-				$cachedCategory['journals'][] = new JournalMock();
-				uasort($cachedCategory['journals'], function ($a, $b) {
-					return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
-				});
-			}
-		}
-	}
+
 	
 	private function assignJournalsByInitial () {
 		$journalsByInitial = $this->journalGroupDAO->getGroupsByInitial('title');
@@ -115,6 +96,30 @@ class UncThemePlugin extends ThemePlugin {
 		$this->templateManager->assign('journals_by_institution', $journalsByInstitution);
 	}
 	
+	private function insertDarwinianaIntoJournalsExtended(&$journals) {
+		$journals = $this->templateManager->get_template_vars('journals_extended');
+		$journals[] = new JournalMock();
+		uasort($journals, function ($a, $b) {
+			return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
+		});
+			$this->templateManager->assign('journals_extended', $journals);
+	}
+	
+	private function insertDarwinianaIntoCategories(&$cache) {
+		$darwinianaCategoryName = 'Área ciencias naturales, básicas y aplicadas';
+		foreach($cache as &$cachedCategory) {
+			//Add a new group when setting_value changes
+			if ($cachedCategory != null && $cachedCategory['category']  != null && 
+					$cachedCategory['category']->getLocalizedName() == $darwinianaCategoryName) {
+				
+				$cachedCategory['journals'][] = new JournalMock();
+				uasort($cachedCategory['journals'], function ($a, $b) {
+					return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
+				});
+			}
+		}
+	}
+	
 	private function insertDarwinianaIntoGroup(&$cache, $group) {
 		//Add a new group when setting_value changes
 		if ($cache[$group]  == null) {
@@ -122,7 +127,7 @@ class UncThemePlugin extends ThemePlugin {
 			ksort($cache);
 		}
 		$cache[$group][] = new JournalMock();
-		uasort($cachedCategory[$group], function ($a, $b) {
+		uasort($cache[$group], function ($a, $b) {
 			return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
 		});
 	}
