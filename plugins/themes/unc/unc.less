@@ -10,6 +10,8 @@
  */
 
 @import (reference) "less/bootstrap.less";
+@import "less/font-awesome/font-awesome.less";
+@import "less/bootstrap-social.less";
 
 .theme-font() {
 	font-family: "Open sans", sans-serif;
@@ -248,9 +250,8 @@ table.listing {
 }
 
 .tab-content {
-	overflow-y: auto;
-	overflow-x: hidden;
-	height: 300px;
+	min-height: 500px;
+	padding-bottom: 30px;
 }
 
 td.label {
@@ -261,4 +262,12 @@ td.label {
 
 .label {
 	color: inherit;
+}
+
+.journal-group {
+	padding-bottom: 30px;
+}
+
+#social-links {
+	margin-bottom: 30px;
 }
