@@ -133,49 +133,54 @@
 <div class="">
 	<div class="">
 		<ul class="nav nav-tabs nav-justified">
-		  <li class="tab active h5"><a data-toggle="tab" href="#journals_by_publisher">Revistas por editorial</a></li>
-		  <li class="h5"><a data-toggle="tab" href="#journals_by_category">Revistas por categoría</a></li>
-		  <li class="h5"><a data-toggle="tab" href="#journals_by_initial">Íncide alfabético</a></li>
+			<li class="tab active h5"><a data-toggle="tab" href="#journals_by_publisher">Revistas por editorial</a></li>
+			<li class="h5"><a data-toggle="tab" href="#journals_by_category">Revistas por categoría</a></li>
+			<li class="h5"><a data-toggle="tab" href="#journals_by_initial">Íncide alfabético</a></li>
 		</ul>
 		<div class="tab-content">
-		  <div id="journals_by_publisher" class="tab-pane fade in active">
+		<div id="journals_by_publisher" class="tab-pane fade in active">
 			{foreach from=$journals_by_institution item=group key=institution}
-				<div class="h5">{$institution|default:"Sin categorizar"}</div>
-				<div class="row">
-				{foreach from=$group item=journal}
-					<div class="col-md-6">
-						<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
+				<div class="journal-group">
+					<div class="h5">{$institution|default:"Sin categorizar"}</div>
+					<div class="row">
+					{foreach from=$group item=journal}
+						<div class="col-md-6">
+							<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
+						</div>
+					{/foreach}
 					</div>
-				{/foreach}
 				</div>
 			{/foreach}
-		  </div>
-		  <div id="journals_by_category" class="tab-pane fade">
+		</div>
+		<div id="journals_by_category" class="tab-pane fade">
 			{foreach from=$journals_by_category item=categoryArray}
-				{assign var=category value=$categoryArray.category}
-				{assign var=journalist value=$categoryArray.journal}
-				<div class="h5">{$category->getLocalizedName()|escape}</div>
-				<div class="row">
-				{foreach from=$categoryArray.journals item=journal}
-					<div class="col-md-6">
-						<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
+				<div class="journal-group">
+					{assign var=category value=$categoryArray.category}
+					{assign var=journalist value=$categoryArray.journal}
+					<div class="h5">{$category->getLocalizedName()|escape}</div>
+					<div class="row">
+					{foreach from=$categoryArray.journals item=journal}
+						<div class="col-md-6">
+							<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
+						</div>
+					{/foreach}
 					</div>
-				{/foreach}
 				</div>
 			{/foreach}
-		  </div>
-		  <div id="journals_by_initial" class="tab-pane fade">
+		</div>
+		<div id="journals_by_initial" class="tab-pane fade">
 			{foreach from=$journals_by_initial item=group key=initial}
-				<div class="h5">{$initial|default:"Sin categorizar"}</div>
-				<div class="row">
-				{foreach from=$group item=journal}
-					<div class="col-md-6">
-						<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
+				<div class="journal-group">
+					<div class="h5">{$initial|default:"Sin categorizar"}</div>
+					<div class="row">
+					{foreach from=$group item=journal}
+						<div class="col-md-6">
+							<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
+						</div>
+					{/foreach}
 					</div>
-				{/foreach}
 				</div>
 			{/foreach}
-		  </div>
 		</div>
 	</div>
 </div>
@@ -202,5 +207,35 @@
 </p>
 </div>
 {/if}
+{literal}
+		
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="http://revistas.unc.edu.ar/" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
+
+<span class="twitter-follow-button">
+    <a href="https://twitter.com/AccesoUNC" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Seguir a @AccesoUNC</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</span>
+
+<div class="padded pull-right" id="social-links">
+    <a class="btn btn-social-icon btn-twitter btn" href="https://twitter.com/AccesoUNC" target="_blank" title="Twitter: Acceso abierto UNC">
+        <span class="fa fa-twitter"></span>
+    </a>
+    <!-- Espacio en blanco entre elementos -->
+    
+    <a class="btn btn-social-icon btn-facebook btn" href="https://www.facebook.com/Acceso-Abierto-Al-Conocimiento-UNC-212512496264/" target="_blank" title="Facebook: Acceso Abierto Al Conocimiento - UNC">
+        <span class="fa fa-facebook-official">
+        </span>
+    </a>
+</div>
+{/literal}
 {include file="common/footer.tpl"}
 

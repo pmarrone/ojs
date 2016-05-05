@@ -43,7 +43,12 @@
 						<td><input type="password" id="sidebar-password" name="password" value="{$password|escape}" size="12" class="textField" /></td>
 					</tr>
 					<tr>
-						<td colspan="2"><input type="checkbox" id="remember" name="remember" value="1" /> <label for="remember">{translate key="plugins.block.user.rememberMe"}</label></td>
+						<td>
+							<label for="remember">{translate key="plugins.block.user.rememberMe"}</label>
+						</td>
+						<td>
+							<input type="checkbox" id="remember" name="remember" value="1" />
+						</td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="submit" value="{translate key="user.login"}" class="button" /></td>
