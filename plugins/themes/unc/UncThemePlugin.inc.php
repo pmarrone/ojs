@@ -8,13 +8,11 @@ import('classes.plugins.ThemePlugin');
 
 class UncThemePlugin extends ThemePlugin {
 	
-	private $journalGroupDAO;
 	/**
 	 * Get the name of this plugin. The name must be unique within
 	 * its category.
 	 * @return String name of plugin
 	 */
-	private $templateManager = null;
 	
 	function getName() {
 		return 'UncThemePlugin';
@@ -37,10 +35,16 @@ class UncThemePlugin extends ThemePlugin {
 	}
 	
 	function activate(&$templateMgr) {
+		
+		$this->hookTemplate('Templates::Common::Footer::PageFooter', 'unc-footer.tpl');
+		
+		$themeTemplateDir = Core::getBaseDir() . DIRECTORY_SEPARATOR . $this->getPluginPath() . '/templates';
 		$this->templateManager = &$templateMgr;
+		array_unshift($this->templateManager->template_dir, $themeTemplateDir);
 		$this->addBootstrap($templateMgr);
-		$templateMgr->addJavaScript('/plugins/themes/unc/js/touchSwipe/jquery.touchSwipe.js');
-		$templateMgr->addJavaScript('/plugins/themes/unc/js/slideshow.js');
+		
+		$templateMgr->addJavaScript($this->getPluginPath() .'/js/touchSwipe/jquery.touchSwipe.js');
+		$templateMgr->addJavaScript($this->getPluginPath().'/js/slideshow.js');
 		
 		$this->registerJournalGroupDAO();
 		
@@ -56,13 +60,13 @@ class UncThemePlugin extends ThemePlugin {
 		}
 	}
 	
-	private function assignJournalsExtended() {
+	function assignJournalsExtended() {
 		$journals =& $this->journalGroupDAO->getJournals(true);
 		$this->templateManager->assign('journals_extended', $journals->toArray());
 		$this->insertDarwinianaIntoJournalsExtended($journals);
 	}
 
- 	private function registerJournalGroupDAO() {
+ 	function registerJournalGroupDAO() {
  		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
  		$this->import('classes.JournalGroupDAO');
 		$this->import('classes.JournalMock');
@@ -70,7 +74,7 @@ class UncThemePlugin extends ThemePlugin {
 
 	}
 	
-	private function assignJournalsByCategory () {
+	function assignJournalsByCategory () {
 		$categoryDao =& DAORegistry::getDAO('CategoryDAO');
 		$cache =& $categoryDao->getCache();
 		$this->insertDarwinianaIntoCategories($cache);
@@ -82,21 +86,19 @@ class UncThemePlugin extends ThemePlugin {
 		$this->templateManager->addStyleSheet('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&subset=latin,latin-ext');
 	}
 	
-
-	
-	private function assignJournalsByInitial () {
+	function assignJournalsByInitial () {
 		$journalsByInitial = $this->journalGroupDAO->getGroupsByInitial('title');
 		$this->insertDarwinianaIntoGroup($journalsByInitial, 'R');
 		$this->templateManager->assign('journals_by_initial', $journalsByInitial);
 	}
 	
-	private function assignJournalsByInstitution() {
+	function assignJournalsByInstitution() {
 		$journalsByInstitution = $this->journalGroupDAO->getGroups('publisherInstitution', 'title');
 		$this->insertDarwinianaIntoGroup($journalsByInstitution, 'Instituto de Botánica Darwinion y Museo Botánico de Córdoba');
 		$this->templateManager->assign('journals_by_institution', $journalsByInstitution);
 	}
 	
-	private function insertDarwinianaIntoJournalsExtended(&$journals) {
+	function insertDarwinianaIntoJournalsExtended(&$journals) {
 		$journals = $this->templateManager->get_template_vars('journals_extended');
 		$journals[] = new JournalMock();
 		uasort($journals, function ($a, $b) {
@@ -105,7 +107,7 @@ class UncThemePlugin extends ThemePlugin {
 			$this->templateManager->assign('journals_extended', $journals);
 	}
 	
-	private function insertDarwinianaIntoCategories(&$cache) {
+	function insertDarwinianaIntoCategories(&$cache) {
 		$darwinianaCategoryName = 'Área ciencias naturales, básicas y aplicadas';
 		foreach($cache as &$cachedCategory) {
 			//Add a new group when setting_value changes
@@ -120,7 +122,7 @@ class UncThemePlugin extends ThemePlugin {
 		}
 	}
 	
-	private function insertDarwinianaIntoGroup(&$cache, $group) {
+	function insertDarwinianaIntoGroup(&$cache, $group) {
 		//Add a new group when setting_value changes
 		if ($cache[$group]  == null) {
 			$cache[$group] = array();
@@ -139,6 +141,33 @@ class UncThemePlugin extends ThemePlugin {
 		$templateMgr->addJavaScript($this->getPluginPath().'/js/bootstrap.js');
 	}
 	
+	function hookTemplate($hookName, $templateName, $stopPropagation = false) {
+		(new TemplateHookCallback($hookName, $templateName, $stopPropagation))->register();	
+	}
+}
+
+class TemplateHookCallback
+{
+	
+	function TemplateHookCallback($hookName, $templateName, $stopPropagation) {
+		$this->templateName = $templateName;
+		$this->hookName = $hookName;
+		$this->stopPropagation = $stopPropagation;
+	}
+	
+	function register() {
+		HookRegistry::register(
+				$this->hookName,
+				array(&$this, 'hookTemplate'));
+	}
+	
+	function hookTemplate($hookName, $args) {
+		$params =& $args[0];
+		$smarty =& $args[1];
+		$output =& $args[2];
+		$output = $smarty->fetch($this->templateName);
+		return $this->stopPropagation;
+	}
 }
 
 ?>

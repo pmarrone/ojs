@@ -1,7 +1,6 @@
 var $jq1 = jQuery.noConflict(true);
 (function ($) {
 	$(document).ready(function () {
-		//$('.carousel').carousel();
 		$(".carousel").swipe({
 			swipe : function(event, direction, distance,
 					duration, fingerCount, fingerData) {
