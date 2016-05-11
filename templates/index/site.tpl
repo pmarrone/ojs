@@ -130,12 +130,12 @@
 <div id="journalListPageInfo">{page_info iterator=$journals}</div>
 <div id="journalListPageLinks">{page_links anchor="journals" name="journals" iterator=$journals}</div>
 
-<div class="">
+<div>
 	<div class="">
 		<ul class="nav nav-tabs nav-justified">
-			<li class="tab active h5"><a data-toggle="tab" href="#journals_by_publisher">Revistas por editorial</a></li>
-			<li class="h5"><a data-toggle="tab" href="#journals_by_category">Revistas por categoría</a></li>
-			<li class="h5"><a data-toggle="tab" href="#journals_by_initial">Íncide alfabético</a></li>
+			<li class="tab active h5"><a data-toggle="tab" href="#journals_by_publisher">Revistas por Editores</a></li>
+			<li class="h5"><a data-toggle="tab" href="#journals_by_category">Revistas por Categoría</a></li>
+			<li class="h5"><a data-toggle="tab" href="#journals_by_initial">Íncide Alfabético</a></li>
 		</ul>
 		<div class="tab-content">
 		<div id="journals_by_publisher" class="tab-pane fade in active">
