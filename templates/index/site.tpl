@@ -136,7 +136,7 @@
 	<div class="">
 		<ul class="nav nav-tabs nav-justified">
 			<li class="tab active h5"><a data-toggle="tab" href="#journals_by_publisher">Revistas por Editor</a></li>
-			<li class="h5"><a data-toggle="tab" href="#journals_by_category">Revistas por Categoría</a></li>
+			<li class="h5"><a data-toggle="tab" href="#journals_by_category">Revistas por Disciplina</a></li>
 			<li class="h5"><a data-toggle="tab" href="#journals_by_initial">Íncide Alfabético</a></li>
 		</ul>
 		<div class="tab-content">
