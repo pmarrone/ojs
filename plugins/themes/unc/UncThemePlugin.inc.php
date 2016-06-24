@@ -60,12 +60,6 @@ class UncThemePlugin extends ThemePlugin {
 		}
 	}
 	
-	function assignJournalsExtended() {
-		$journals =& $this->journalGroupDAO->getJournals(true);
-		$this->templateManager->assign('journals_extended', $journals->toArray());
-		$this->insertDarwinianaIntoJournalsExtended($journals);
-	}
-
  	function registerJournalGroupDAO() {
  		DAORegistry::registerDAO('JournalGroupDAO', $journalGroupDAO);
  		$this->import('classes.JournalGroupDAO');
@@ -74,6 +68,17 @@ class UncThemePlugin extends ThemePlugin {
 
 	}
 	
+	function assignJournalsExtended() {
+		$journalsExtended =& $this->journalGroupDAO->getJournals(true);
+	    $journalsExtended = $journalsExtended->toArray();
+		$this->insertDarwinianaIntoJournalsExtended($journalsExtended);
+		//Sort journals
+		uasort($journalsExtended, function ($a, $b) {
+			return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
+		});
+		$this->templateManager->assign('journals_extended', $journalsExtended);
+	}
+
 	function assignJournalsByCategory () {
 		$categoryDao =& DAORegistry::getDAO('CategoryDAO');
 		$cache =& $categoryDao->getCache();
@@ -99,12 +104,9 @@ class UncThemePlugin extends ThemePlugin {
 	}
 	
 	function insertDarwinianaIntoJournalsExtended(&$journals) {
-		$journals = $this->templateManager->get_template_vars('journals_extended');
-		$journals[] = new JournalMock();
-		uasort($journals, function ($a, $b) {
-			return strcmp($a->getLocalizedTitle(), $b->getLocalizedTitle());
-		});
-			$this->templateManager->assign('journals_extended', $journals);
+		//$journals = $this->templateManager->get_template_vars('journals_extended');
+		$darwinianaImage =  $this->getPluginPath() . '/images/darwiniana.jpg';
+		$journals[] = new JournalMock(array("journalThumbnail" => $darwinianaImage, "imageUrl" =>  $darwinianaImage));
 	}
 	
 	function insertDarwinianaIntoCategories(&$cache) {
@@ -124,7 +126,7 @@ class UncThemePlugin extends ThemePlugin {
 	
 	function insertDarwinianaIntoGroup(&$cache, $group) {
 		//Add a new group when setting_value changes
-		if ($cache[$group]  == null) {
+		if (!array_key_exists($group, $cache)) {
 			$cache[$group] = array();
 			ksort($cache);
 		}
