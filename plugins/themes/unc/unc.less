@@ -21,6 +21,19 @@ body {
 	color: #111111;
 }
 
+#body {
+	&.hide-sidebar {
+		#sidebar {
+			display: none;
+			overflow-x: hidden;
+		}
+		
+		#main {
+			width: 80%;
+		}
+	}
+}
+
 #sidebar, #rightSidebar, #sidebar div.block {
 	.theme-font();
 	font-size: 14px;
@@ -92,6 +105,9 @@ input.button {
 #headerTitle {
 	background-color: #ffffff;
 	color: #ffffff;
+	img {
+		&:extend(.img-responsive all);
+	}
 }
 
 #footer {
