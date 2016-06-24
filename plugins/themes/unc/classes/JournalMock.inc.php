@@ -18,11 +18,6 @@
  * @brief Describes basic journal properties.
  */
 
-
-define('PUBLISHING_MODE_OPEN', 0);
-define('PUBLISHING_MODE_SUBSCRIPTION', 1);
-define('PUBLISHING_MODE_NONE', 2);
-
 class JournalMock extends Journal {
 	
 	private $settings;
@@ -31,7 +26,7 @@ class JournalMock extends Journal {
 	/**
 	 * Constructor.
 	 */
-	function JournalMock() {
+	function JournalMock($settings = array()) {
 		parent::DataObject();
 		
 		$this->settings = array(
@@ -49,6 +44,7 @@ class JournalMock extends Journal {
 				'initials' => 'D',
 				'journalThumbnail' => 'http://www.ojs.darwin.edu.ar/public/journals/2/cover_issue_35_es_ES.jpg'
 		);
+		$this->settings = array_merge($this->settings, $settings); 
 	}
 
 	/**
