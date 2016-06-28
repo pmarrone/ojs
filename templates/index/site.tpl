@@ -144,7 +144,7 @@
 					<div class="h5">{$institution|default:"Sin categorizar"}</div>
 					<div class="row">
 					{foreach from=$group item=journal}
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
 						</div>
 					{/foreach}
@@ -160,7 +160,7 @@
 					<div class="h5">{$category->getLocalizedName()|escape}</div>
 					<div class="row">
 					{foreach from=$categoryArray.journals item=journal}
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
 						</div>
 					{/foreach}
@@ -174,7 +174,7 @@
 					<div class="h5">{$initial|default:"Sin categorizar"}</div>
 					<div class="row">
 					{foreach from=$group item=journal}
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<a href="{$journal->getUrl()}">{$journal->getLocalizedTitle()|escape}</a>
 						</div>
 					{/foreach}
