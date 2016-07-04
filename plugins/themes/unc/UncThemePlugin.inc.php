@@ -105,7 +105,7 @@ class UncThemePlugin extends ThemePlugin {
 	
 	function insertDarwinianaIntoJournalsExtended(&$journals) {
 		//$journals = $this->templateManager->get_template_vars('journals_extended');
-		$darwinianaImage =  $this->getPluginPath() . '/images/darwiniana.jpg';
+		$darwinianaImage =  Request::getBaseUrl() . DIRECTORY_SEPARATOR . $this->getPluginPath() . '/images/darwiniana.jpg';
 		$journals[] = new JournalMock(array("journalThumbnail" => $darwinianaImage, "imageUrl" =>  $darwinianaImage));
 	}
 	
