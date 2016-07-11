@@ -44,7 +44,7 @@ class UncThemePlugin extends ThemePlugin {
 		$this->addBootstrap($templateMgr);
 		
 		$templateMgr->addJavaScript($this->getPluginPath() .'/js/touchSwipe/jquery.touchSwipe.js');
-		$templateMgr->addJavaScript($this->getPluginPath().'/js/slideshow.js');
+		$templateMgr->addJavaScript($this->getPluginPath().'/js/unc-theme.js');
 		
 		$this->registerJournalGroupDAO();
 		

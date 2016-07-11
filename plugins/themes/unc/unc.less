@@ -21,7 +21,42 @@ body {
 	color: #111111;
 }
 
+#container {
+	//Override OJS minimum container size
+	min-width: 0 !important;
+}
+
 #body {
+	&.collapsable {
+		#main {
+			width: 80%;
+		}
+		
+		#sidebar {
+			&:extend(.clearfix all);
+			#rightSidebar {
+				position: absolute;
+				height: inherit;
+				right: 0px;
+				width: 250px;
+				z-index: 100;
+				padding: @panel-body-padding;
+				margin-right: 20px;
+				border-left: 1px solid #ddd;
+				
+				#sidebar-toggle {
+					text-align: center;
+					padding: 15px;
+					background-color: #bcc0aa;
+					margin-bottom: 15px;
+					i {
+						line-height: 20px;
+					}
+				}
+			}
+		}
+	}
+	
 	&.hide-sidebar {
 		#sidebar {
 			display: none;
@@ -32,12 +67,25 @@ body {
 			width: 80%;
 		}
 	}
+	
+	#main {
+		padding-top: @panel-body-padding;
+	}
 }
 
-#sidebar, #rightSidebar, #sidebar div.block {
-	.theme-font();
-	font-size: 14px;
+#sidebar {
+	&, {
+		#rightSidebar, #sidebar div.block {
+			.theme-font();
+			font-size: 14px;
+		}
+	}
+	
+	#rightSidebar {
+		background-color: white;
+	}
 }
+
 
 a:link {
 	color: #555;
@@ -133,6 +181,17 @@ input.button {
 	ul.menu {
 		&:extend(.nav all);
 		&:extend(.navbar-nav all);
+		li {
+			padding-right: 0;
+		}
+	}
+	
+	#sidebar-toggle {
+		float: right;
+		padding: 15px;
+		i {
+			line-height: 20px;
+		}
 	}
 
 	&:extend(.navbar all);
